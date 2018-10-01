@@ -24,11 +24,16 @@ for i=2:numel(xs)
     [ys(i), Vys] = equations.get_y(ys(i-1), Vys);
     
     % Rebound large ball if it goes below the ground
-    if yl(i) < 1
+    if yl(i) < 1 || yl(i) > 9
         [Vxl, Vyl] = equations.rebound_outer_y(Vxl, Vyl);
         xl(i) = xl(i-1) + Vxl*equations.dt;
         yl(i) = yl(i-1) + Vyl*equations.dt;
     end
+    
+    if xl(i) < 1 || xl(i) > 9
+        [Vxl, Vyl] = equations.rebound_outer_x(Vxl, Vyl);
+        xl(i) = xl(i-1) + Vxl*equations.dt;
+        yl(i) = yl(i-1) + Vyl*equations.dt;
     
     if (xs(i)-xl(i))^2 + (ys(i)-yl(i))^2 > 1
         contact_x = [contact_x xl(i)];
@@ -48,9 +53,9 @@ for i=2:numel(xs)
     plot(outer_x, outer_y);
     plot(xs(i), ys(i), 'o');
     hold off
-    xlim([-10,10]);
+    xlim([0,10]);
     ylim([0,10]);
-    pbaspect([2 1 1]);
+    pbaspect([1 1 1]);
     pause(0.0001);
 end
 

@@ -23,7 +23,7 @@ for i=2:numel(xs)
     
     % Rebound large ball if it goes below the ground
     if yl(i) < 1
-        [Vxl, Vyl] = equations.rebound_outer(Vxl, Vyl);
+        [Vxl, Vyl] = equations.rebound_outer_y(Vxl, Vyl);
         xl(i) = xl(i-1) + Vxl*equations.dt;
         yl(i) = yl(i-1) + Vyl*equations.dt;
     end

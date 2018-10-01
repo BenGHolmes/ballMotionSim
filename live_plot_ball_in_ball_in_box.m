@@ -11,8 +11,8 @@ contact_y = [];
 theta = 0:0.01:2*pi;
 
 % Initial conditions
-xs(1)=2; ys(1)=10; Vxs=0; Vys=5;
-xl(1)=2.3; yl(1)=10; Vxl=2; Vyl=-8;
+xs(1)=2; ys(1)=8; Vxs=0; Vys=10;
+xl(1)=2.3; yl(1)=8; Vxl=1; Vyl=-90;
 
 for i=2:numel(xs)
     % Update outer ball position and velocity
@@ -24,8 +24,14 @@ for i=2:numel(xs)
     [ys(i), Vys] = equations.get_y(ys(i-1), Vys);
     
     % Rebound large ball if it goes below the ground
-    if yl(i) < 1
+    if yl(i) < 1 || yl(i) > 9
         [Vxl, Vyl] = equations.rebound_outer_y(Vxl, Vyl);
+        xl(i) = xl(i-1) + Vxl*equations.dt;
+        yl(i) = yl(i-1) + Vyl*equations.dt;
+    end
+    
+    if xl(i) < 1 || xl(i) > 9
+        [Vxl, Vyl] = equations.rebound_outer_x(Vxl, Vyl);
         xl(i) = xl(i-1) + Vxl*equations.dt;
         yl(i) = yl(i-1) + Vyl*equations.dt;
     end
@@ -48,9 +54,9 @@ for i=2:numel(xs)
     plot(outer_x, outer_y);
     plot(xs(i), ys(i), 'o');
     hold off
-    xlim([-10,10]);
+    xlim([0,10]);
     ylim([0,10]);
-    pbaspect([2 1 1]);
+    pbaspect([1 1 1]);
     pause(0.0001);
 end
 

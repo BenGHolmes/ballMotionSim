@@ -1,9 +1,9 @@
 classdef equations
     properties(Constant)
-        g = 9.81;  % m/s^2
+        g = 0;  % m/s^2
         mu = 0.5;  % drag coefficient of sphere
         dt = 0.005;  % time step
-        e = 0.95;  % coefficient of restitution
+        e = 1;  % coefficient of restitution
         run_time = 10;  % s
         m_l = 10;  % kg
         m_s = 1;  % kg
@@ -82,27 +82,33 @@ classdef equations
         % appropriate coefficient of restitution (e for Vr and e_tan
         % for Vt)
         function [Vx, Vy] = rebound_fixed_outer(Vx0, Vy0, x, y)
-            e_tan = equations.e_tan;
             e = equations.e;
 
             r = [x, y];
             v = [Vx0, Vy0];
             
             vr = (dot(v,r) / norm(r)^2) * r;
-            vt = e_tan * (v - vr);
+            vt =  (v - vr);
             vr = -e * vr;
             Vx = vt(1) + vr(1);
             Vy = vt(2) + vr(2);
         end
         
         % Calculate velocity in the x and y directions after bouncing off
-        % the ground. Vy is reflected and scaled by 1/e while Vx keeps
+        % the ground or roof. Vy is reflected and scaled by 1/e while Vx keeps
         % its direction and magnitude
-        function [Vx, Vy] = rebound_outer(Vx0, Vy0)
+        function [Vx, Vy] = rebound_outer_y(Vx0, Vy0)
             e = equations.e;
             
             Vx = Vx0;
             Vy = -e * Vy0;
+        end
+        
+        function [Vx, Vy] = rebound_outer_x(Vx0, Vy0)
+            e = equations.e;
+            
+            Vx = -e * Vx0;
+            Vy = Vy0;
         end
         
         function [Vxl, Vyl, Vxs, Vys] = rebound_free_outer(Vl, Vs, L, S)
