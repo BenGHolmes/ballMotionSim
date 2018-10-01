@@ -1,3 +1,4 @@
+![](demo.gif)
 # Overview
 Found the paper "Modeling The Motion Of A Ball Bouncing Within A Ball" by T. Morrison (https://web.math.pmf.unizg.hr/nastava/nmf/Lopta.pdf) and decided to try implementing it myself. All code was written in Matlab. Feel free to modify or add to any of the files. It's fun to change initial conditions and see how the system responds
 
