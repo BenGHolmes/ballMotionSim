@@ -1,9 +1,9 @@
 classdef equations
     properties(Constant)
-        g = 0;  % m/s^2
+        g = 9.81;  % m/s^2
         mu = 0.5;  % drag coefficient of sphere
         dt = 0.005;  % time step
-        e = 1;  % coefficient of restitution
+        e = 0.95;  % coefficient of restitution
         run_time = 10;  % s
         m_l = 10;  % kg
         m_s = 1;  % kg
